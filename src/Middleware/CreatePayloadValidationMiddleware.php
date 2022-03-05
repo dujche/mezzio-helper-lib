@@ -13,7 +13,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class CreateSellerPayloadValidationMiddleware implements MiddlewareInterface
+class CreatePayloadValidationMiddleware implements MiddlewareInterface
 {
     private InputFilter $inputFilter;
 

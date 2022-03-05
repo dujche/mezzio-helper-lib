@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Dujche\MezzioHelperLibTest\Middleware;
 
 use Dujche\MezzioHelperLib\Exception\ValidationException;
-use Dujche\MezzioHelperLib\Middleware\CreateSellerPayloadValidationMiddleware;
+use Dujche\MezzioHelperLib\Middleware\CreatePayloadValidationMiddleware;
 use JsonException;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\InputFilter\InputFilter;
@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class CreateSellerPayloadValidationMiddlewareTest extends TestCase
+class CreatePayloadValidationMiddlewareTest extends TestCase
 {
     /**
      * @throws JsonException
@@ -42,7 +42,7 @@ class CreateSellerPayloadValidationMiddlewareTest extends TestCase
             ]
         );
 
-        $middleware = new CreateSellerPayloadValidationMiddleware($inputFilterMock, $loggerMock);
+        $middleware = new CreatePayloadValidationMiddleware($inputFilterMock, $loggerMock);
         $middleware->process($requestMock, $handlerMock);
     }
 
@@ -65,7 +65,7 @@ class CreateSellerPayloadValidationMiddlewareTest extends TestCase
         $inputFilterMock->expects($this->once())->method('isValid')->willReturn(true);
 
 
-        $middleware = new CreateSellerPayloadValidationMiddleware($inputFilterMock, $loggerMock);
+        $middleware = new CreatePayloadValidationMiddleware($inputFilterMock, $loggerMock);
         $response = $middleware->process($requestMock, $handlerMock);
 
         $this->assertInstanceOf(EmptyResponse::class, $response);
