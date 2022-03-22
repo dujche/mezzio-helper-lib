@@ -10,10 +10,10 @@ use Dujche\MezzioHelperLib\Exception\ValidationException;
 use Exception;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\Response\JsonResponse;
-use Laminas\Log\LoggerInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Log\LoggerInterface;
 
 class CustomErrorHandlerMiddlewareTest extends TestCase
 {
@@ -26,7 +26,7 @@ class CustomErrorHandlerMiddlewareTest extends TestCase
             ->with($requestMock)->willThrowException(new RuntimeException('foo'));
 
         $loggerMock = $this->createMock(LoggerInterface::class);
-        $loggerMock->expects($this->once())->method('err')
+        $loggerMock->expects($this->once())->method('error')
             ->with('Caught RuntimeException: foo');
 
         $middleware = new CustomErrorHandlerMiddleware($loggerMock);
@@ -45,7 +45,7 @@ class CustomErrorHandlerMiddlewareTest extends TestCase
             ->with($requestMock)->willThrowException(new ValidationException('bar'));
 
         $loggerMock = $this->createMock(LoggerInterface::class);
-        $loggerMock->expects($this->once())->method('err')
+        $loggerMock->expects($this->once())->method('error')
             ->with('Caught ValidationException: bar');
 
         $middleware = new CustomErrorHandlerMiddleware($loggerMock);
@@ -65,7 +65,7 @@ class CustomErrorHandlerMiddlewareTest extends TestCase
             ->with($requestMock)->willThrowException(new Exception('bar'));
 
         $loggerMock = $this->createMock(LoggerInterface::class);
-        $loggerMock->expects($this->once())->method('err')
+        $loggerMock->expects($this->once())->method('error')
             ->with('Caught Exception exception: bar');
 
         $middleware = new CustomErrorHandlerMiddleware($loggerMock);
@@ -81,7 +81,7 @@ class CustomErrorHandlerMiddlewareTest extends TestCase
             ->with($requestMock)->willReturn(new EmptyResponse(200));
 
         $loggerMock = $this->createMock(LoggerInterface::class);
-        $loggerMock->expects($this->never())->method('err');
+        $loggerMock->expects($this->never())->method('error');
 
         $middleware = new CustomErrorHandlerMiddleware($loggerMock);
         $response = $middleware->process($requestMock, $handlerMock);

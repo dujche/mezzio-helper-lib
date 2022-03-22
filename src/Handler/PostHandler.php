@@ -11,10 +11,10 @@ use Dujche\MezzioHelperLib\Service\AddHandlerInterface;
 use Exception;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\Response\JsonResponse;
-use Laminas\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Log\LoggerInterface;
 
 abstract class PostHandler implements RequestHandlerInterface
 {
@@ -38,11 +38,11 @@ abstract class PostHandler implements RequestHandlerInterface
         try {
             $saveResult = $this->performSave($post);
         } catch (DuplicateRecordException $duplicateRecordException) {
-            $this->logger->warn($duplicateRecordException->getMessage());
+            $this->logger->warning($duplicateRecordException->getMessage());
             return new EmptyResponse(409);
         }
         if ($saveResult === null) {
-            $this->logger->err('Inserting contact into database failed.');
+            $this->logger->error('Inserting contact into database failed.');
             throw new RuntimeException();
         }
 

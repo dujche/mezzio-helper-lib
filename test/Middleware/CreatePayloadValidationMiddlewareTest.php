@@ -9,10 +9,10 @@ use Dujche\MezzioHelperLib\Middleware\CreatePayloadValidationMiddleware;
 use JsonException;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\InputFilter\InputFilter;
-use Laminas\Log\LoggerInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Log\LoggerInterface;
 
 class CreatePayloadValidationMiddlewareTest extends TestCase
 {
@@ -30,7 +30,7 @@ class CreatePayloadValidationMiddlewareTest extends TestCase
         $handlerMock->expects($this->never())->method('handle');
 
         $loggerMock = $this->createMock(LoggerInterface::class);
-        $loggerMock->expects($this->once())->method('err');
+        $loggerMock->expects($this->once())->method('error');
 
         $inputFilterMock = $this->createMock(InputFilter::class);
         $inputFilterMock->expects($this->once())->method('isValid')->willReturn(false);
@@ -59,7 +59,7 @@ class CreatePayloadValidationMiddlewareTest extends TestCase
             ->with($requestMock)->willReturn(new EmptyResponse(200));
 
         $loggerMock = $this->createMock(LoggerInterface::class);
-        $loggerMock->expects($this->never())->method('err');
+        $loggerMock->expects($this->never())->method('error');
 
         $inputFilterMock = $this->createMock(InputFilter::class);
         $inputFilterMock->expects($this->once())->method('isValid')->willReturn(true);

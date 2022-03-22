@@ -12,9 +12,9 @@ use Dujche\MezzioHelperLib\Service\AddHandlerInterface;
 use JsonException;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\Response\JsonResponse;
-use Laminas\Log\LoggerInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Log\LoggerInterface;
 
 class PostSellerHandlerTest extends TestCase
 {
@@ -84,7 +84,7 @@ class PostSellerHandlerTest extends TestCase
                 'dateJoined' => '2020-01-01'
             ]);
 
-        $this->logger->expects($this->once())->method('err');
+        $this->logger->expects($this->once())->method('error');
 
         $this->handler->handle($requestMock);
     }

@@ -7,11 +7,11 @@ namespace Dujche\MezzioHelperLib\Middleware;
 use Dujche\MezzioHelperLib\Exception\ValidationException;
 use JsonException;
 use Laminas\InputFilter\InputFilter;
-use Laminas\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Log\LoggerInterface;
 
 class CreatePayloadValidationMiddleware implements MiddlewareInterface
 {
@@ -49,7 +49,7 @@ class CreatePayloadValidationMiddleware implements MiddlewareInterface
         $errorMessagesAsArray = $this->inputFilter->getMessages();
         $errorMessageAsArray = current($errorMessagesAsArray);
 
-        $this->logger->err(
+        $this->logger->error(
             sprintf('Payload Validation failed: %s', json_encode($errorMessagesAsArray, JSON_THROW_ON_ERROR))
         );
 

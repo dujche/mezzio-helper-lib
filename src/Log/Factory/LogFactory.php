@@ -6,9 +6,10 @@ namespace Dujche\MezzioHelperLib\Log\Factory;
 
 use Interop\Container\ContainerInterface;
 use Laminas\Log\Logger;
-use Laminas\Log\LoggerInterface;
+use Laminas\Log\PsrLoggerAdapter;
 use Laminas\Log\Writer\Stream;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psr\Log\LoggerInterface;
 
 class LogFactory implements FactoryInterface
 {
@@ -18,6 +19,6 @@ class LogFactory implements FactoryInterface
         $logger = new Logger();
         $logger->addWriter(new Stream('php://stdout'));
 
-        return $logger;
+        return new PsrLoggerAdapter($logger);
     }
 }

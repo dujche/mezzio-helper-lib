@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Dujche\MezzioHelperLib;
 
+use Dujche\MezzioHelperLib\Error\CustomErrorHandlerMiddleware;
 use Dujche\MezzioHelperLib\Log\Factory\LogFactory;
-use Laminas\Log\LoggerInterface;
+use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
+use Psr\Log\LoggerInterface;
 
 /**
  * The configuration provider for the App module
@@ -24,6 +26,7 @@ class ConfigProvider
     {
         return [
             'dependencies' => $this->getDependencies(),
+            ConfigAbstractFactory::class => $this->getConfigAbstractFactories(),
         ];
     }
 
@@ -35,6 +38,16 @@ class ConfigProvider
         return [
             'factories' => [
                 LoggerInterface::class => LogFactory::class,
+                CustomErrorHandlerMiddleware::class => ConfigAbstractFactory::class,
+            ],
+        ];
+    }
+
+    private function getConfigAbstractFactories(): array
+    {
+        return [
+            CustomErrorHandlerMiddleware::class => [
+                LoggerInterface::class
             ],
         ];
     }

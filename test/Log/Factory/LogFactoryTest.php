@@ -7,7 +7,7 @@ namespace Dujche\MezzioHelperLibTest\Log\Factory;
 use Dujche\MezzioHelperLib\Log\Factory\LogFactory;
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
-use Laminas\Log\Logger;
+use Laminas\Log\PsrLoggerAdapter;
 use PHPUnit\Framework\TestCase;
 
 class LogFactoryTest extends TestCase
@@ -20,6 +20,6 @@ class LogFactoryTest extends TestCase
         $containerMock = $this->createMock(ContainerInterface::class);
         $containerMock->expects($this->never())->method('get');
         $factory = new LogFactory();
-        $this->assertInstanceOf(Logger::class, $factory($containerMock, ''));
+        $this->assertInstanceOf(PsrLoggerAdapter::class, $factory($containerMock, ''));
     }
 }
