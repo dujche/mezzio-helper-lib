@@ -28,13 +28,24 @@ class CustomErrorHandlerMiddleware implements MiddlewareInterface
         try {
             return $handler->handle($request);
         } catch (ValidationException $validationException) {
-            $this->logger->error('Caught ValidationException: ' . $validationException->getMessage());
+            $this->logger->error(
+                sprintf("Caught ValidationException: %s", $validationException->getMessage())
+            );
             return new JsonResponse(['error' => $validationException->getMessage()], 400);
         } catch (RuntimeException $runtimeException) {
-            $this->logger->error('Caught RuntimeException: ' . $runtimeException->getMessage());
+            $this->logger->error(
+                sprintf("Caught RuntimeException: %s", $runtimeException->getMessage())
+            );
             return new EmptyResponse(500);
         } catch (\Throwable $exception) {
-            $this->logger->error('Caught '. get_class($exception) . ' exception: ' . $exception->getMessage());
+            $this->logger->error(
+                sprintf("Caught %s exception in %s at %s: %s",
+                    get_class($exception),
+                    $exception->getFile(),
+                    $exception->getLine(),
+                    $exception->getMessage()
+                )
+            );
             return new EmptyResponse(500);
         }
     }

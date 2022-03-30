@@ -65,8 +65,7 @@ class CustomErrorHandlerMiddlewareTest extends TestCase
             ->with($requestMock)->willThrowException(new Exception('bar'));
 
         $loggerMock = $this->createMock(LoggerInterface::class);
-        $loggerMock->expects($this->once())->method('error')
-            ->with('Caught Exception exception: bar');
+        $loggerMock->expects($this->once())->method('error');
 
         $middleware = new CustomErrorHandlerMiddleware($loggerMock);
         $middleware->process($requestMock, $handlerMock);
